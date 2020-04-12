@@ -23,7 +23,8 @@ var
   currentFrame = Frame(code: codeStr)
 
 proc getConstOpArg(opIndex: int): PyObjRef =
-  var opArg = pycode["const"][opIndex+1]
+  let opArgIndex = int(codeStr[opIndex+1])
+  let opArg = pycode["consts"][opArgIndex]
   
   case opArg.kind:
   of JInt:
@@ -45,7 +46,7 @@ for opIndex, op in codeStr:
   of ord(STORE_NAME):
     var opArgIndex = ord(codeStr[opIndex+1])
     var opArg = pyCode["names"][opArgIndex]
-    currentFrame.locals[opArg]= stack[^1]
+    currentFrame.locals[opArg.getStr]= stack[^1]
   else: discard
 
 echo stack
