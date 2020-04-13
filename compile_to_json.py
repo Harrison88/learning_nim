@@ -1,11 +1,12 @@
 import sys
 import json
 import dis
+from base64 import b64encode
 
 
 def handle_bytes(obj):
     if type(obj) == bytes:
-        return obj.decode("ascii")
+        return b64encode(obj).decode("ascii")
 
 def main(filename):
     file_obj = open(filename)

@@ -1,4 +1,4 @@
-import json, tables, opcodes, pyobj/pyobj, pyobj/frame
+import json, tables, base64, opcodes, pyobj/pyobj, pyobj/frame
 
 let contents = readFile("test.py.json")
 let pyCode = parseJson(contents)
@@ -18,7 +18,7 @@ echo ord(LOAD_CONST)
 
 var
   stack: PyStack = @[]
-  codeStr = code.getStr()
+  codeStr = base64.decode(code.getStr())
   frames: seq[Frame] = @[]
   currentFrame = Frame(code: codeStr)
 
