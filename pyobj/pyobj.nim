@@ -1,3 +1,5 @@
+import tables
+
 type
   PyObjTypes = enum
     pyInt, pyStr
@@ -11,6 +13,7 @@ type
       str*: string
   
   PyStack* = seq[PyObjRef]
+  PyMap* = TableRef[string, PyObjRef]
   
 
 proc createPyObj*(value: int): PyObjRef =
@@ -28,3 +31,6 @@ proc `$`*(obj: PyObjRef): string =
     result.add(obj.str)
     result.add("\"")
 
+
+proc newPyMap*(): PyMap =
+  result = newTable[string, PyObjRef]()
