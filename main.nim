@@ -5,22 +5,12 @@ let pyCode = parseJson(contents)
 
 let code = pyCode["code"]
 
-for chr in code.getStr():
-  echo ord(chr)
-  
-echo ord(pop_top)
-
-echo pyCode
-
-echo STORE_NAME in nameArg
-
-echo ord(LOAD_CONST)
-
 var
   stack: PyStack = @[]
   codeStr = base64.decode(code.getStr())
   frames: seq[Frame] = @[]
-  currentFrame = Frame(code: codeStr)
+  currentFrame = newFrame(codeStr)
+
 
 proc getConstOpArg(opIndex: int): PyObjRef =
   let opArgIndex = int(codeStr[opIndex+1])
@@ -49,19 +39,4 @@ for opIndex, op in codeStr:
     currentFrame.locals[opArg.getStr]= stack[^1]
   else: discard
 
-echo stack
-
-echo "Hello, world!"
-
-var names = initTable[string, PyObjRef]()
-
-echo names
-
-var pyFrame = Frame(code: " ", globals: names, locals: names, parent: nil)
-
-echo pyFrame
-
-var nextPyFrame = Frame(code: "new", parent: pyFrame)
-
-echo nextPyFrame
 echo currentFrame
